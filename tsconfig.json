@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+      "outDir": "dist",
+      "target": "esnext",
+      "moduleResolution": "node",
+      "module": "commonjs",
+      "sourceMap": false,
+      "noImplicitAny": false,
+      "removeComments": true,
+  },
+  "include": [
+      "src/**/*", "src/commands/Stats.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".env"
+  ],
+}
