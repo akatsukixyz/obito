@@ -9,6 +9,20 @@ export interface ObitoOptions {
   owners: string[];
   commandsDir: string;
   eventsDir: string;
+  color: string;
+};
+export enum ClientStates {
+  NONE = 'none',
+  INIT = 'init',
+  READY = 'ready',
+  START = 'start'
+};
+export interface ClientUsage {
+  CPU: string;
+  USED: number;
+  TOTAL: number;
+  MEM: string;
+  PERCENT: string;
 };
 
 export class Obito extends Client {
@@ -19,7 +33,10 @@ export class Obito extends Client {
   public ops!: ObitoOptions;
   public cmdhandler!: CommandHandler;
   public evhandler!: EventHandler;
-  public state!: string;
+  public state!: ClientStates;
+  public usage!: ClientUsage;
+  public usageUpdates!: any;
+  public color!: string;
   public constructor(options: ObitoOptions, clientopts: ClientOptions) {
     super(clientopts);
     this.logger = new Logger(this);
@@ -32,7 +49,8 @@ export class Obito extends Client {
       options.owners = null;
     };
     this.ops = options;
-    this.state = 'none';
+    this.color = options.color;
+    this.state = ClientStates.NONE;
     this._init();
   };
   public async Cache(): Promise<void> {
@@ -48,12 +66,12 @@ export class Obito extends Client {
     this.cmdhandler = await new CommandHandler(this).load();
     this.evhandler = await new EventHandler(this).load();
     if(!this.cmdhandler || !this.evhandler) throw new Error('An error occurred while loading the handlers...');
-    this.state = 'init';
+    this.state = ClientStates.INIT;
   };
-  public async start(): Promise<string> {
+  public async start(): Promise<void> {
     if(!this.ops.token) throw new Error(`No token provided.`);
-    try { return await this.login(this.ops.token); }
+    try { await this.login(this.ops.token); }
     catch(e) { console.log(e); };
-    this.state = 'start';
+    this.state = ClientStates.START;
   };
 };

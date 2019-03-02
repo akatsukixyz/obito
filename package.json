@@ -9,7 +9,8 @@
     "@types/node": "^11.9.4",
     "discord.js": "discordjs/discord.js",
     "dotenv": "^6.2.0",
-    "mongoose": "^5.4.16"
+    "mongoose": "^5.4.16",
+    "node-os-utils": "^1.0.7"
   },
   "scripts": {
     "start": "tsc -p tsconfig.json && cd dist && node ."

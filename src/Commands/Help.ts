@@ -18,22 +18,23 @@ module.exports = class Help extends Command {
     this.client = client;
   };
   async execute(message: Message, args: string[]) {
-    async function sendNormal(message: Message, client: Obito, color: string){
+    const sendNormal = (message: Message) => {
       const embed = new MessageEmbed()
         .setAuthor(`Help`, message.guild.iconURL())
-        .setColor(color);
+        .setColor(this.client.color);
       const categoriesMap: {[key: string]: string[]} = {};
-      for (const command of client.commands.array()) {
+      for (const command of this.client.commands.array()) {
         const { category } = command;
         if (!(category in categoriesMap)) categoriesMap[category] = [];
         if(!categoriesMap[category].includes(command.name)) categoriesMap[category].push(command.name);
       }
-      for (const category in categoriesMap) embed.addField(category.replace(category[0], category[0].toUpperCase()), `\`${categoriesMap[category].join('`, `')}\``, true);
+      for (const category in categoriesMap) 
+        if(category !== 'owner') embed.addField(category.replace(category[0], category[0].toUpperCase()), `\`${categoriesMap[category].join('`, `')}\``, true);
       return message.channel.send(embed);
     };
     if(args[0]) {
       const cmd: Command = this.client.commands.get(args[0].toLowerCase());
-      if(!cmd) return sendNormal(message, this.client, '#DC1B5F');
+      if(!cmd) return sendNormal(message);
       const embed = new MessageEmbed()
         .setAuthor(`Help: ${cmd.name}`, message.guild.iconURL())
         .addField(`Description`, cmd.description, true)
@@ -45,6 +46,6 @@ module.exports = class Help extends Command {
         .setColor('#DC1B5F');
       return message.channel.send(embed);
     };
-    return sendNormal(message, this.client, '#DC1B5F');
+    return sendNormal(message);
   };
 };
