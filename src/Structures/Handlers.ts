@@ -14,7 +14,7 @@ export class CommandHandler {
     for (const file of files) {
         const command = new (require(path.resolve(`${this.client.ops.commandsDir}/${file}`)))(this.client);
         this.client.commands.set(command.name.toLowerCase(), command);
-        for (const alias of command.aliases) this.client.aliases.set(alias.toLowerCase(), command);
+        for (const alias of command.aliases) this.client.commands.set(alias.toLowerCase(), command);
     };
     return this;
   };

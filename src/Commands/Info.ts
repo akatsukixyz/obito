@@ -8,7 +8,7 @@ module.exports = class Info extends Command {
       name: 'Info',
       description: 'Info command',
       usage: `\`-info\``,
-      aliases: ['`stats`'],
+      aliases: ['stats'],
       category: 'misc',
       senderPerms: ['SEND_MESSAGES'],
       clientPerms: ['SEND_MESSAGES'],

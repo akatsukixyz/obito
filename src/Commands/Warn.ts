@@ -6,10 +6,10 @@ module.exports = class Test extends Command {
   public client!: Obito;
   constructor(client: Obito) {
     super({
-      name: 'warn',
+      name: 'Warn',
       description: 'Warn command',
       usage: `\`-warn [user] [...reason]\``,
-      aliases: ['`w`'],
+      aliases: ['w'],
       category: 'mod',
       senderPerms: ['MANAGE_MESSAGES'],
       clientPerms: ['SEND_MESSAGES'],
@@ -24,17 +24,18 @@ module.exports = class Test extends Command {
     let user = this.client.users.get(matched) || await this.client.users.fetch(matched) || await message.guild.members.fetch(matched).then(m => m.user);
     if(!user) return message.channel.send(`Error: Invalid user.`);
     message.author = await this.client.users.fetch(message.author.id);
+    const _case = await this.client.cache.Cases.recent(message.guild.id) ? await this.client.cache.Cases.recent(message.guild.id).then(c => c.case) + 1 : 1;
     const warn = await new Warn({
       id: message.guild.id,
       type: 'Warn',
-      case: this.client.cache.Cases.recent(1).case + 1 || 1,
+      case: _case,
       reason: args.slice(1).join(' '),
       user: user.id,
       staff: message.author.id,
       locked: false,
       time: new Date().getTime(),
       wiped: false
-    }).save();
+    });
     await this.client.logger.logCase(warn);
     return message.channel.send(`Warned ${user.tag} :white_check_mark:`);
   };

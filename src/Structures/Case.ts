@@ -79,7 +79,7 @@ export class Case implements CaseType {
       user: this.user,
       staff: this.staff,
       locked: this.locked,
-      timestamp: this.time
+      time: this.time
     }).save();
     return this;
   } 

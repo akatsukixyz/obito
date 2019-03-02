@@ -23,7 +23,7 @@ const CaseModel = mongoose.model('Case', new mongoose.Schema({
   user: String,
   staff: String,
   locked: Boolean,
-  timestamp: Number,
+  time: Number,
   wiped: Boolean
 }, {
   strict: true

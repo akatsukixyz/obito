@@ -16,7 +16,6 @@ export class Obito extends Client {
   public cache!: CacheManager;
   public connection;
   public commands!: Data;
-  public aliases?: Data;
   public ops!: ObitoOptions;
   public cmdhandler!: CommandHandler;
   public evhandler!: EventHandler;
@@ -26,7 +25,6 @@ export class Obito extends Client {
     this.logger = new Logger(this);
     this.cache = new CacheManager({ storeAll: true });
     this.commands = new Data();
-    this.aliases = new Data();
     if(!options.token) throw new Error(`No token specified.`);
     if(!options.owners || (options.owners && !options.owners.length)) console.log(`No owner set. Owner-only settings will not take effect.`);
     if(options.owners && (options.owners.some(o => isNaN(Number(o))) || options.owners.some(o => o.length < 16) || options.owners.some(o => o.length > 18))) {
