@@ -14,7 +14,7 @@ export class Logger implements LoggerInterface {
   };
   public log(...things: any): void { return console.log(...things); };
   public async logCase(_case: Case) {
-    const guild = this.client.guilds.get(_case._id);
+    const guild = this.client.guilds.get(_case.id);
     if(!guild) return this.log(`[Case Log] -> Invalid guild.`);
     const user = await this.client.users.fetch(_case.user),
       staff = await this.client.users.fetch(_case.staff);
@@ -27,6 +27,6 @@ export class Logger implements LoggerInterface {
     if(!b.some(a => channel.permissionsFor(guild.me).has(a))) return this.log(`[Case Log] -> Insufficient permissions to send log message.`);
     try { await channel.send(_case.embed({ action: _case.type, user: user, staff: staff  })); }
     catch(e) { return console.log(e); };
-    this.client.cache.Cases.set(`${_case._id}-${guild.id}`, await _case.save());
+    this.client.cache.Cases.set(`${_case.id}-${guild.id}`, await _case.save());
   };
 };

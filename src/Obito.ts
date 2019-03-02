@@ -9,4 +9,4 @@ const client = new Obito({
 }, {});
 client.start();
 client.on('error', client.logger.log);
-process.on('unhandledRejection', client.logger.log);
+// process.on('unhandledRejection', client.logger.log);

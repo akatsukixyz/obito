@@ -16,14 +16,15 @@
 // };
 import * as mongoose from 'mongoose';
 const CaseModel = mongoose.model('Case', new mongoose.Schema({
-  _id: String,
+  id: String,
   type: String,
-  case: String,
+  case: Number,
   reason: String,
   user: String,
   staff: String,
   locked: Boolean,
-  timestamp: Number
+  timestamp: Number,
+  wiped: Boolean
 }, {
   strict: true
 }));

@@ -1,6 +1,4 @@
 import { MessageEmbed, User } from 'discord.js';
-import { Data } from './Data';
-import CaeModel from '../Models/Case';
 import CaseModel from '../Models/Case';
 
 export interface embedOptions {
@@ -10,7 +8,7 @@ export interface embedOptions {
 };
 
 export interface CaseType {
-  _id: string;
+  id: string;
   type: string;
   case: number;
   reason: string,
@@ -22,7 +20,7 @@ export interface CaseType {
 };
 
 export class Case implements CaseType {
-  public _id!: string;
+  public id!: string;
   public type!: string;
   public case!: number;
   public reason!: string;
@@ -37,7 +35,7 @@ export class Case implements CaseType {
     this.setup(data);
   };
   private setup(data: CaseType): Case {
-    this._id = data._id;
+    this.id = data.id;
     this.type = data.type;
     this.case = data.case;
     this.reason = data.reason || `No reason specified. Set one using \`-reason ${this.case} [...reason]\``;
@@ -74,7 +72,7 @@ export class Case implements CaseType {
   };
   public async save() {
     await new CaseModel({
-      _id: this._id,
+      id: this.id,
       type: this.type,
       case: this.case,
       reason: this.reason,
@@ -88,6 +86,7 @@ export class Case implements CaseType {
 };
 export interface warn extends CaseType {};
 export class Warn extends Case implements warn {
+  public id!: string;
   constructor(data: warn) {
     super(data);
   };

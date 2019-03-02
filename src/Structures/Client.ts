@@ -47,8 +47,8 @@ export class Obito extends Client {
         useFindAndModify: false
       });
     } catch(e) { throw new Error(e); };
-    this.cmdhandler = new CommandHandler(this).load();
-    this.evhandler = new EventHandler(this).load();
+    this.cmdhandler = await new CommandHandler(this).load();
+    this.evhandler = await new EventHandler(this).load();
     if(!this.cmdhandler || !this.evhandler) throw new Error('An error occurred while loading the handlers...');
     this.state = 'init';
   };

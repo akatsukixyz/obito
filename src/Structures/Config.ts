@@ -1,11 +1,22 @@
+import ConfigModel from '../Models/Config';
+import { throws } from 'assert';
 export interface ConfigOptions {
-  _id: string;
-  log: string;
+  id: string;
+  log?: string;
 };
 export class Config {
-  public _id!: string;
+  public id!: string;
   public log!: string;
-  constructor(ops: ConfigOptions) {
+  public constructor(ops: ConfigOptions) {
     Object.assign(this, ops);
+  };
+  public async save() {
+    const config = await new ConfigModel({
+      id: this.id,
+      log: this.log || ''
+    }).save();
+
+    console.log(`[Guild Join] -> ${this.id}`);
+    return this;
   };
 };

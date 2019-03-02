@@ -6,7 +6,7 @@ import { Command } from './Command';
 export class CommandHandler {
   private client!: Obito;
   public constructor(client: Obito) { this.client = client; };
-  public load(): CommandHandler {
+  public async load(): Promise<CommandHandler> {
     if(!fs.statSync(path.resolve(this.client.ops.commandsDir)).isDirectory()) throw new Error('No commands folder. Canceling command handler.');
     try { var files = fs.readdirSync(path.resolve(this.client.ops.commandsDir)).filter(f => f.endsWith('.js')); }
     catch(e) { throw new Error(e); };
@@ -27,7 +27,7 @@ export class EventHandler {
   private client!: Obito;
   protected events?: string[];
   constructor(client: Obito) { this.client = client; };
-  public load(): EventHandler {
+  public async load(): Promise<EventHandler> {
     this.events = [];
     if(!fs.statSync(path.resolve(this.client.ops.eventsDir)).isDirectory()) throw new Error('No events folder. Canceling event handler.');
     try { var files = fs.readdirSync(path.resolve(this.client.ops.eventsDir)).filter(f => f.endsWith('.js')); }
